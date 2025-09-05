@@ -18,7 +18,7 @@ sendBtn.addEventListener('click', async () => {
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
-      'Authorization': 'Bearer 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',
+      'Authorization': 'Bearer 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',
       'Content-Type': 'application/json'
 },
     body: JSON.stringify({
