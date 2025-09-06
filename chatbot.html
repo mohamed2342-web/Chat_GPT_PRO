@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المساعد الذكي - AI Universe</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --dark-bg: #0f0f23;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --chat-bg: rgba(255, 255, 255, 0.05);
+            --user-msg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --ai-msg: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(103, 126, 234, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.1) 0%, transparent 50%);
+        }
+
+        /* Header */
+        .header {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .back-btn {
+            background: var(--primary-gradient);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(103, 126, 234, 0.3);
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .language-switcher {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .language-switcher select {
+            background: transparent;
+            color: var(--text-primary);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* Chat Container */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 80px);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .chat-header {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .chat-title {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .chat-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Messages Area */
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: var(--chat-bg);
+            border-radius: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .message {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .user-avatar {
+            background: var(--user-msg);
+        }
+
+        .ai-avatar {
+            background: var(--ai-msg);
+            border: 2px solid var(--border-color);
+        }
+
+        .message-bubble {
+            max-width: 70%;
+            padding: 15px 20px;
+            border-radius: 20px;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
+        .user-bubble {
+            background: var(--user-msg);
+            color: white;
+            border-radius: 20px 5px 20px 20px;
+        }
+
+        .ai-bubble {
+            background: var(--ai-msg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px 20px 20px 20px;
+        }
+
+        .message-time {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        /* Input Area */
+        .input-container {
+            display: flex;
+            gap: 15px;
+            align-items: flex-end;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: 25px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(20px);
+        }
+
+        .input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .message-input {
+            width: 100%;
+            min-height: 50px;
+            max-height: 150px;
+            padding: 15px 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            background: var(--chat-bg);
+            color: var(--text-primary);
+            font-size: 16px;
+            resize: none;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .message-input:focus {
+            outline: none;
+            border-color: rgba(103, 126, 234, 0.5);
+            box-shadow: 0 0 20px rgba(103, 126, 234, 0.2);
+        }
+
+        .message-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .send-btn {
+            background: var(--primary-gradient);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .send-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 20px rgba(103, 126, 234, 0.3);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Suggestions */
+        .suggestions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .suggestion-chip {
+            padding: 10px 15px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .suggestion-chip:hover {
+            background: var(--primary-gradient);
+            transform: translateY(-2px);
+        }
+
+        /* Typing indicator */
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+            margin: 20px;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--text-secondary);
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .chat-container {
+                padding: 0 10px;
+            }
+
+            .message-bubble {
+                max-width: 85%;
+            }
+
+            .suggestions {
+                padding: 0 10px;
+            }
+
+            .header {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+        }
+
+        /* RTL/LTR Support */
+        body.ltr {
+            direction: ltr;
+        }
+
+        body.ltr .message.user {
+            flex-direction: row;
+        }
+
+        body.ltr .user-bubble {
+            border-radius: 20px 20px 5px 20px;
+        }
+
+        body.ltr .ai-bubble {
+            border-radius: 20px 20px 20px 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-left">
+            <a href="index.html" class="back-btn">
+                <span>←</span>
+                <span data-ar="العودة" data-en="Back" data-fr="Retour">العودة</span>
+            </a>
+            <h1 class="page-title" data-ar="المساعد الذكي" data-en="Smart Assistant" data-fr="Assistant Intelligent">المساعد الذكي</h1>
+        </div>
+        <div class="language-switcher">
+            <select id="languageSwitcher">
+                <option value="ar">🇸🇦 العربية</option>
+                <option value="en">🇺🇸 English</option>
+                <option value="fr">🇫🇷 Français</option>
+            </select>
+        </div>
+    </header>
+
+    <!-- Chat Container -->
+    <div class="chat-container">
+        <!-- Chat Header -->
+        <div class="chat-header">
+            <h2 class="chat-title" data-ar="مرحباً! أنا مساعدك الذكي 🤖" data-en="Hello! I'm your Smart Assistant 🤖" data-fr="Bonjour! Je suis votre Assistant Intelligent 🤖">مرحباً! أنا مساعدك الذكي 🤖</h2>
+            <p class="chat-subtitle" data-ar="اسألني عن أي شيء وسأساعدك في الإجابة!" data-en="Ask me anything and I'll help you with the answer!" data-fr="Demandez-moi n'importe quoi et je vous aiderai avec la réponse!">اسألني عن أي شيء وسأساعدك في الإجابة!</p>
+        </div>
+
+        <!-- Suggestions -->
+        <div class="suggestions">
+            <div class="suggestion-chip" data-ar="كيف يمكنني تعلم البرمجة؟" data-en="How can I learn programming?" data-fr="Comment puis-je apprendre la programmation?">كيف يمكنني تعلم البرمجة؟</div>
+            <div class="suggestion-chip" data-ar="اكتب لي قصة قصيرة" data-en="Write me a short story" data-fr="Écrivez-moi une nouvelle">اكتب لي قصة قصيرة</div>
+            <div class="suggestion-chip" data-ar="نصائح للصحة النفسية" data-en="Mental health tips" data-fr="Conseils de santé mentale">نصائح للصحة النفسية</div>
+            <div class="suggestion-chip" data-ar="شرح الذكاء الاصطناعي" data-en="Explain AI" data-fr="Expliquez l'IA">شرح الذكاء الاصطناعي</div>
+        </div>
+
+        <!-- Messages Container -->
+        <div class="messages-container" id="messagesContainer">
+            <!-- Welcome message -->
+            <div class="message ai">
+                <div class="message-avatar ai-avatar">🤖</div>
+                <div class="message-content">
+                    <div class="message-bubble ai-bubble" data-ar="مرحباً! أنا هنا لمساعدتك. يمكنك سؤالي عن أي موضوع تريده - من البرمجة إلى الطبخ، من العلوم إلى الفن. ما الذي تريد أن تعرفه اليوم؟" data-en="Hello! I'm here to help you. You can ask me about any topic you want - from programming to cooking, from science to art. What would you like to know today?" data-fr="Bonjour! Je suis là pour vous aider. Vous pouvez me demander n'importe quel sujet - de la programmation à la cuisine, des sciences à l'art. Que voulez-vous savoir aujourd'hui?">مرحباً! أنا هنا لمساعدتك. يمكنك سؤالي عن أي موضوع تريده - من البرمجة إلى الطبخ، من العلوم إلى الفن. ما الذي تريد أن تعرفه اليوم؟</div>
+                    <div class="message-time">الآن</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Typing Indicator -->
+        <div class="typing-indicator" id="typingIndicator">
+            <div class="message-avatar ai-avatar">🤖</div>
+            <span data-ar="يكتب..." data-en="Typing..." data-fr="Écrit...">يكتب...</span>
+            <div class="typing-dots">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
+        </div>
+
+        <!-- Input Container -->
+        <div class="input-container">
+            <div class="input-wrapper">
+                <textarea 
+                    id="messageInput" 
+                    class="message-input" 
+                    rows="1"
+                    data-ar-placeholder="اكتب رسالتك هنا..."
+                    data-en-placeholder="Type your message here..."
+                    data-fr-placeholder="Tapez votre message ici..."
+                    placeholder="اكتب رسالتك هنا..."></textarea>
+            </div>
+            <button id="sendBtn" class="send-btn">
+                <span>📤</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Language system
+        const translations = {
+            ar: { direction: 'rtl', lang: 'ar' },
+            en: { direction: 'ltr', lang: 'en' },
+            fr: { direction: 'ltr', lang: 'fr' }
+        };
+
+        let currentLanguage = 'ar';
+        let messageId = 0;
+
+        // AI responses in different languages
+        const aiResponses = {
+            ar: [
+                "هذا سؤال ممتاز! دعني أفكر فيه...",
+                "شكراً لك على هذا السؤال المثير للاهتمام!",
+                "هذا موضوع رائع للنقاش!",
+                "أفهم ما تقصده، إليك رأيي...",
+                "هذا سؤال ذكي جداً!"
+            ],
+            en: [
+                "That's an excellent question! Let me think about it...",
+                "Thank you for this interesting question!",
+                "This is a great topic for discussion!",
+                "I understand what you mean, here's my take...",
+                "That's a very smart question!"
+            ],
+            fr: [
+                "C'est une excellente question! Laissez-moi y réfléchir...",
+                "Merci pour cette question intéressante!",
+                "C'est un excellent sujet de discussion!",
+                "Je comprends ce que vous voulez dire, voici mon avis...",
+                "C'est une question très intelligente!"
+            ]
+        };
+
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            const elements = document.querySelectorAll('[data-ar]');
+            
+            elements.forEach(element => {
+                const translation = element.getAttribute(`data-${lang}`);
+                if (translation) {
+                    if (element.tagName === 'TEXTAREA' || element.tagName === 'INPUT') {
+                        element.placeholder = translation;
+                    } else {
+                        element.textContent = translation;
+                    }
+                }
+            });
+
+            document.documentElement.lang = translations[lang].lang;
+            document.documentElement.dir = translations[lang].direction;
+            document.body.className = translations[lang].direction;
+            
+            localStorage.setItem('preferred-language', lang);
+        }
+
+        // Initialize language
+        const savedLanguage = localStorage.getItem('preferred-language') || 'ar';
+        document.getElementById('languageSwitcher').value = savedLanguage;
+        switchLanguage(savedLanguage);
+
+        document.getElementById('languageSwitcher').addEventListener('change', function() {
+            switchLanguage(this.value);
+        });
+
+        // Chat functionality
+        const messagesContainer = document.getElementById('messagesContainer');
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const typingIndicator = document.getElementById('typingIndicator');
+
+        function getCurrentTime() {
+            const now = new Date();
+            return now.toLocaleTimeString(currentLanguage === 'ar' ? 'ar-SA' : 
+                                        currentLanguage === 'en' ? 'en-US' : 'fr-FR', 
+                                        { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function addMessage(content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
+            messageDiv.innerHTML = `
+                <div class="message-avatar ${isUser ? 'user-avatar' : 'ai-avatar'}">
+                    ${isUser ? '👤' : '🤖'}
+                </div>
+                <div class="message-content">
+                    <div class="message-bubble ${isUser ? 'user-bubble' : 'ai-bubble'}">
+                        ${content}
+                    </div>
+                    <div class="message-time">${getCurrentTime()}</div>
+                </div>
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        function showTyping() {
+            typingIndicator.style.display = 'flex';
+            scrollToBottom();
+        }
+
+        function hideTyping() {
+            typingIndicator.style.display = 'none';
+        }
+
+        function scrollToBottom() {
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function getAIResponse(userMessage) {
+            const responses = aiResponses[currentLanguage];
+            const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+            
+            // Simple AI simulation based on keywords
+            if (userMessage.toLowerCase().includes('hello') || userMessage.toLowerCase().includes('مرحبا') || userMessage.toLowerCase().includes('salut')) {
+                return currentLanguage === 'ar' ? 'مرحباً بك! كيف يمكنني مساعدتك اليوم؟' :
+                       currentLanguage === 'en' ? 'Hello! How can I help you today?' :
+                       'Bonjour! Comment puis-je vous aider aujourd\'hui?';
+            }
+            
+            if (userMessage.toLowerCase().includes('programming') || userMessage.toLowerCase().includes('برمجة') || userMessage.toLowerCase().includes('programmation')) {
+                return currentLanguage === 'ar' ? 'البرمجة مهارة رائعة! يمكنك البدء بـ Python أو JavaScript. هل تريد نصائح محددة؟' :
+                       currentLanguage === 'en' ? 'Programming is a great skill! You can start with Python or JavaScript. Would you like specific tips?' :
+                       'La programmation est une compétence formidable! Vous pouvez commencer avec Python ou JavaScript. Voulez-vous des conseils spécifiques?';
+            }
+            
+            return randomResponse + " " + (currentLanguage === 'ar' ? 'هل يمكنك توضيح سؤالك أكثر؟' :
+                                          currentLanguage === 'en' ? 'Could you clarify your question more?' :
+                                          'Pourriez-vous clarifier votre question davantage?');
+        }
+
+        async function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            // Add user message
+            addMessage(message, true);
+            messageInput.value = '';
+            
+            // Show typing indicator
+            showTyping();
+            sendBtn.disabled = true;
+
+            // Simulate AI response delay
+            setTimeout(() => {
+                hideTyping();
+                const aiResponse = getAIResponse(message);
+                addMessage(aiResponse, false);
+                sendBtn.disabled = false;
+            }, 1500 + Math.random() * 1000);
+        }
+
+        // Event listeners
+        sendBtn.addEventListener('click', sendMessage);
+
+        messageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Auto-resize textarea
+        messageInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 150) + 'px';
+        });
+
+        // Suggestion chips
+        document.querySelectorAll('.suggestion-chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+                const suggestion = this.textContent;
+                messageInput.value = suggestion;
+                sendMessage();
+            });
+        });
+
+        // Initialize chat
+        scrollToBottom();
+    </script>
+</body>
+</html>

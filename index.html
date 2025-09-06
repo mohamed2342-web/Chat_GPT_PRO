@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Universe - عالم الذكاء الاصطناعي</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --dark-bg: #0f0f23;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --glow-color: rgba(103, 126, 234, 0.3);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(103, 126, 234, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(79, 172, 254, 0.1) 0%, transparent 50%);
+        }
+
+        /* Language Switcher */
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .language-switcher select {
+            background: transparent;
+            color: var(--text-primary);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .language-switcher select option {
+            background: var(--dark-bg);
+            color: var(--text-primary);
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 80px 20px 40px;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px var(--glow-color), 0 0 30px var(--glow-color);
+            }
+            to {
+                text-shadow: 0 0 30px var(--glow-color), 0 0 40px var(--glow-color);
+            }
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 50px;
+            line-height: 1.6;
+        }
+
+        /* Tools Grid */
+        .tools-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 40px 0;
+        }
+
+        .tool-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(103, 126, 234, 0.2);
+            border-color: rgba(103, 126, 234, 0.3);
+        }
+
+        .tool-card:hover::before {
+            opacity: 1;
+        }
+
+        .tool-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .tool-card:nth-child(1) .tool-icon { animation-delay: 0s; }
+        .tool-card:nth-child(2) .tool-icon { animation-delay: 0.5s; }
+        .tool-card:nth-child(3) .tool-icon { animation-delay: 1s; }
+        .tool-card:nth-child(4) .tool-icon { animation-delay: 1.5s; }
+        .tool-card:nth-child(5) .tool-icon { animation-delay: 2s; }
+
+        .tool-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .tool-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .tool-button {
+            background: var(--primary-gradient);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .tool-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(103, 126, 234, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--text-secondary);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .tool-card {
+                padding: 30px 20px;
+            }
+            
+            .language-switcher {
+                top: 10px;
+                right: 10px;
+            }
+        }
+
+        /* Particles Animation */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--text-secondary);
+            border-radius: 50%;
+            animation: particle-float 20s linear infinite;
+        }
+
+        @keyframes particle-float {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) translateX(0);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) translateX(100px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <select id="languageSwitcher">
+            <option value="ar" data-text="العربية">🇸🇦 العربية</option>
+            <option value="en" data-text="English">🇺🇸 English</option>
+            <option value="fr" data-text="Français">🇫🇷 Français</option>
+        </select>
+    </div>
+
+    <!-- Particles Background -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Header -->
+    <header>
+        <h1 class="logo" data-ar="AI Universe" data-en="AI Universe" data-fr="AI Universe">AI Universe</h1>
+        <p class="subtitle" data-ar="عالم الذكاء الاصطناعي في متناول يدك" data-en="The world of AI at your fingertips" data-fr="Le monde de l'IA à portée de main">عالم الذكاء الاصطناعي في متناول يدك</p>
+        <p class="hero-description" data-ar="اكتشف مجموعة شاملة من أدوات الذكاء الاصطناعي المتقدمة التي تساعدك في المحادثات الذكية، توليد الصور، كتابة المحتوى، تحليل البيانات والترجمة - كل ذلك في مكان واحد مع دعم متعدد اللغات." data-en="Discover a comprehensive suite of advanced AI tools that help you with smart conversations, image generation, content writing, data analysis, and translation - all in one place with multilingual support." data-fr="Découvrez une suite complète d'outils d'IA avancés qui vous aident avec des conversations intelligentes, la génération d'images, la rédaction de contenu, l'analyse de données et la traduction - le tout en un seul endroit avec un support multilingue.">اكتشف مجموعة شاملة من أدوات الذكاء الاصطناعي المتقدمة التي تساعدك في المحادثات الذكية، توليد الصور، كتابة المحتوى، تحليل البيانات والترجمة - كل ذلك في مكان واحد مع دعم متعدد اللغات.</p>
+    </header>
+
+    <!-- Main Content -->
+    <main class="tools-container">
+        <div class="tools-grid">
+            <!-- Chatbot Tool -->
+            <div class="tool-card" onclick="navigateToTool('chatbot.html')">
+                <span class="tool-icon">🤖</span>
+                <h3 class="tool-title" data-ar="المساعد الذكي" data-en="Smart Assistant" data-fr="Assistant Intelligent">المساعد الذكي</h3>
+                <p class="tool-description" data-ar="تحدث مع مساعد ذكي متقدم يمكنه الإجابة على أسئلتك وحل مشاكلك بذكاء." data-en="Chat with an advanced smart assistant that can answer your questions and solve your problems intelligently." data-fr="Discutez avec un assistant intelligent avancé qui peut répondre à vos questions et résoudre vos problèmes intelligemment.">تحدث مع مساعد ذكي متقدم يمكنه الإجابة على أسئلتك وحل مشاكلك بذكاء.</p>
+                <a href="chatbot.html" class="tool-button" data-ar="ابدأ المحادثة" data-en="Start Conversation" data-fr="Commencer la conversation">ابدأ المحادثة</a>
+            </div>
+
+            <!-- Image Generation Tool -->
+            <div class="tool-card" onclick="navigateToTool('imagegen.html')">
+                <span class="tool-icon">🎨</span>
+                <h3 class="tool-title" data-ar="توليد الصور" data-en="Image Generation" data-fr="Génération d'images">توليد الصور</h3>
+                <p class="tool-description" data-ar="أنشئ صورًا فنية مذهلة من وصفك النصي باستخدام أحدث تقنيات الذكاء الاصطناعي." data-en="Create stunning artistic images from your text description using the latest AI technologies." data-fr="Créez des images artistiques époustouflantes à partir de votre description textuelle en utilisant les dernières technologies d'IA.">أنشئ صورًا فنية مذهلة من وصفك النصي باستخدام أحدث تقنيات الذكاء الاصطناعي.</p>
+                <a href="imagegen.html" class="tool-button" data-ar="أنشئ صورة" data-en="Generate Image" data-fr="Générer une image">أنشئ صورة</a>
+            </div>
+
+            <!-- Text Generation Tool -->
+            <div class="tool-card" onclick="navigateToTool('textgen.html')">
+                <span class="tool-icon">✍️</span>
+                <h3 class="tool-title" data-ar="كتابة المحتوى" data-en="Content Writing" data-fr="Rédaction de contenu">كتابة المحتوى</h3>
+                <p class="tool-description" data-ar="اكتب مقالات، قصص، نصوص تسويقية وأي نوع من المحتوى تحتاجه تلقائيًا." data-en="Write articles, stories, marketing copy, and any type of content you need automatically." data-fr="Rédigez des articles, des histoires, des textes marketing et tout type de contenu dont vous avez besoin automatiquement.">اكتب مقالات، قصص، نصوص تسويقية وأي نوع من المحتوى تحتاجه تلقائيًا.</p>
+                <a href="textgen.html" class="tool-button" data-ar="ابدأ الكتابة" data-en="Start Writing" data-fr="Commencer à écrire">ابدأ الكتابة</a>
+            </div>
+
+            <!-- Data Analysis Tool -->
+            <div class="tool-card" onclick="navigateToTool('dataanalysis.html')">
+                <span class="tool-icon">📊</span>
+                <h3 class="tool-title" data-ar="تحليل البيانات" data-en="Data Analysis" data-fr="Analyse des données">تحليل البيانات</h3>
+                <p class="tool-description" data-ar="ارفع ملفات البيانات واحصل على تحليلات ذكية ورؤى قيمة في ثوانٍ معدودة." data-en="Upload data files and get smart analytics and valuable insights in seconds." data-fr="Téléchargez des fichiers de données et obtenez des analyses intelligentes et des informations précieuses en quelques secondes.">ارفع ملفات البيانات واحصل على تحليلات ذكية ورؤى قيمة في ثوانٍ معدودة.</p>
+                <a href="dataanalysis.html" class="tool-button" data-ar="حلل البيانات" data-en="Analyze Data" data-fr="Analyser les données">حلل البيانات</a>
+            </div>
+
+            <!-- Translation Tool -->
+            <div class="tool-card" onclick="navigateToTool('translate.html')">
+                <span class="tool-icon">🌍</span>
+                <h3 class="tool-title" data-ar="الترجمة الذكية" data-en="Smart Translation" data-fr="Traduction intelligente">الترجمة الذكية</h3>
+                <p class="tool-description" data-ar="ترجم النصوص بين أكثر من 100 لغة بدقة عالية وفهم للسياق والمعنى." data-en="Translate texts between more than 100 languages with high accuracy and understanding of context and meaning." data-fr="Traduisez des textes entre plus de 100 langues avec une haute précision et une compréhension du contexte et du sens.">ترجم النصوص بين أكثر من 100 لغة بدقة عالية وفهم للسياق والمعنى.</p>
+                <a href="translate.html" class="tool-button" data-ar="ترجم الآن" data-en="Translate Now" data-fr="Traduire maintenant">ترجم الآن</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="about.html" data-ar="حول الموقع" data-en="About Us" data-fr="À propos">حول الموقع</a>
+                <a href="contact.html" data-ar="اتصل بنا" data-en="Contact Us" data-fr="Contactez-nous">اتصل بنا</a>
+                <a href="#" data-ar="الخصوصية" data-en="Privacy" data-fr="Confidentialité">الخصوصية</a>
+                <a href="#" data-ar="الشروط" data-en="Terms" data-fr="Conditions">الشروط</a>
+            </div>
+            <p>&copy; 2025 AI Universe. <span data-ar="جميع الحقوق محفوظة" data-en="All rights reserved" data-fr="Tous droits réservés">جميع الحقوق محفوظة</span>.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Language System
+        const translations = {
+            ar: {
+                direction: 'rtl',
+                lang: 'ar'
+            },
+            en: {
+                direction: 'ltr',
+                lang: 'en'
+            },
+            fr: {
+                direction: 'ltr',
+                lang: 'fr'
+            }
+        };
+
+        let currentLanguage = 'ar';
+
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            const elements = document.querySelectorAll('[data-ar]');
+            
+            elements.forEach(element => {
+                const translation = element.getAttribute(`data-${lang}`);
+                if (translation) {
+                    element.textContent = translation;
+                }
+            });
+
+            // Update document properties
+            document.documentElement.lang = translations[lang].lang;
+            document.documentElement.dir = translations[lang].direction;
+            
+            // Update body class for RTL/LTR styling
+            document.body.className = translations[lang].direction;
+            
+            // Save preference
+            localStorage.setItem('preferred-language', lang);
+        }
+
+        // Language switcher event
+        document.getElementById('languageSwitcher').addEventListener('change', function() {
+            switchLanguage(this.value);
+        });
+
+        // Load saved language preference
+        const savedLanguage = localStorage.getItem('preferred-language') || 'ar';
+        document.getElementById('languageSwitcher').value = savedLanguage;
+        switchLanguage(savedLanguage);
+
+        // Navigation function
+        function navigateToTool(page) {
+            window.location.href = page;
+        }
+
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (20 + Math.random() * 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Initialize particles on load
+        window.addEventListener('load', createParticles);
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Add loading animation
+        window.addEventListener('load', function() {
+            document.body.classList.add('loaded');
+        });
+
+        // Tool card click animation
+        document.querySelectorAll('.tool-card').forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+    </script>
+</body>
+</html>

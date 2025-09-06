@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Universe - الترجمة الذكية</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            --warning-gradient: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+            --translate-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --dark-bg: #0f0f23;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --glow-color: rgba(103, 126, 234, 0.3);
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(103, 126, 234, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(240, 147, 251, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(79, 172, 254, 0.1) 0%, transparent 50%);
+        }
+
+        /* Header */
+        .header {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--text-primary);
+        }
+
+        .language-switcher {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .language-switcher select {
+            background: transparent;
+            color: var(--text-primary);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .page-title h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: var(--translate-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px var(--glow-color); }
+            to { text-shadow: 0 0 30px var(--glow-color); }
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Translation Section */
+        .translation-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 40px;
+        }
+
+        .translation-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .language-selector {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .language-dropdown {
+            flex: 1;
+            position: relative;
+        }
+
+        .language-dropdown select {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            font-size: 16px;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 20px;
+        }
+
+        .language-dropdown select:focus {
+            outline: none;
+            border-color: rgba(103, 126, 234, 0.5);
+            box-shadow: 0 0 20px rgba(103, 126, 234, 0.2);
+        }
+
+        .swap-button {
+            background: var(--accent-gradient);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .swap-button:hover {
+            transform: rotate(180deg) scale(1.1);
+            box-shadow: 0 10px 20px rgba(79, 172, 254, 0.3);
+        }
+
+        .quick-translate {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .quick-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .quick-btn:hover,
+        .quick-btn.active {
+            background: var(--accent-gradient);
+            border-color: transparent;
+            transform: translateY(-2px);
+        }
+
+        /* Translation Panel */
+        .translation-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .input-section,
+        .output-section {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-icon {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .action-icon:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .text-input {
+            width: 100%;
+            min-height: 200px;
+            border: none;
+            background: transparent;
+            color: var(--text-primary);
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            outline: none;
+            line-height: 1.6;
+        }
+
+        .text-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .text-output {
+            width: 100%;
+            min-height: 200px;
+            color: var(--text-primary);
+            font-size: 16px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .char-counter {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .translate-button {
+            width: 100%;
+            padding: 18px;
+            background: var(--translate-gradient);
+            border: none;
+            border-radius: 15px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+
+        .translate-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(103, 126, 234, 0.3);
+        }
+
+        .translate-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .translate-button.loading {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Features Section */
+        .features-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(103, 126, 234, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Popular Languages */
+        .popular-languages {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 40px;
+        }
+
+        .popular-languages h2 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: var(--text-primary);
+        }
+
+        .language-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .language-item {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .language-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .language-flag {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .language-name {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .language-code {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* History Section */
+        .history-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 40px;
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .history-title {
+            font-size: 1.8rem;
+            color: var(--text-primary);
+        }
+
+        .clear-history-btn {
+            padding: 10px 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .clear-history-btn:hover {
+            background: var(--secondary-gradient);
+            border-color: transparent;
+        }
+
+        .history-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .history-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .history-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .translation-pair {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .translation-time {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        .history-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .original-text,
+        .translated-text {
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .original-text {
+            background: rgba(240, 147, 251, 0.1);
+            color: var(--text-primary);
+        }
+
+        .translated-text {
+            background: rgba(79, 172, 254, 0.1);
+            color: var(--text-primary);
+        }
+
+        .history-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .history-btn {
+            padding: 6px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .history-btn:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Loading Animation */
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .loading-overlay.show {
+            display: flex;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid var(--text-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .nav-links {
+                gap: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .translation-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .language-selector {
+                flex-direction: column;
+                min-width: auto;
+            }
+
+            .translation-panel {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .features-section {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .language-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+
+            .page-title h1 {
+                font-size: 2.2rem;
+            }
+
+            .translation-section,
+            .popular-languages,
+            .history-section {
+                padding: 30px 20px;
+            }
+
+            .history-content {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .quick-translate {
+                flex-wrap: wrap;
+            }
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--success-gradient);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.error {
+            background: var(--secondary-gradient);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="logo">AI Universe</a>
+            <nav class="nav-links">
+                <a href="index.html" data-ar="الرئيسية" data-en="Home" data-fr="Accueil">الرئيسية</a>
+                <a href="chatbot.html" data-ar="المساعد الذكي" data-en="Chatbot" data-fr="Assistant">المساعد الذكي</a>
+                <a href="imagegen.html" data-ar="توليد الصور" data-en="Image Generation" data-fr="Génération d'images">توليد الصور</a>
+                <a href="textgen.html" data-ar="كتابة المحتوى" data-en="Text Generation" data-fr="Génération de texte">كتابة المحتوى</a>
+                <a href="dataanalysis.html" data-ar="تحليل البيانات" data-en="Data Analysis" data-fr="Analyse">تحليل البيانات</a>
+                <a href="#" class="active" data-ar="الترجمة" data-en="Translation" data-fr="Traduction">الترجمة</a>
+            </nav>
+            <div class="language-switcher">
+                <select id="languageSwitcher">
+                    <option value="ar">🇸🇦 العربية</option>
+                    <option value="en">🇺🇸 English</option>
+                    <option value="fr">🇫🇷 Français</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Page Title -->
+        <div class="page-title">
+            <h1 data-ar="الترجمة الذكية متعددة اللغات" data-en="Smart Multilingual Translation" data-fr="Traduction multilingue intelligente">الترجمة الذكية متعددة اللغات</h1>
+            <p class="page-subtitle" data-ar="ترجم النصوص بين أكثر من 100 لغة بدقة عالية وفهم للسياق والمعنى" data-en="Translate texts between more than 100 languages with high accuracy and context understanding" data-fr="Traduisez des textes entre plus de 100 langues avec une haute précision et une compréhension du contexte">ترجم النصوص بين أكثر من 100 لغة بدقة عالية وفهم للسياق والمعنى</p>
+        </div>
+
+        <!-- Translation Section -->
+        <div class="translation-section">
+            <div class="translation-header">
+                <div class="language-selector">
+                    <div class="language-dropdown">
+                        <select id="sourceLanguage">
+                            <option value="auto" data-ar="كشف تلقائي" data-en="Auto Detect" data-fr="Détection auto">كشف تلقائي</option>
+                            <option value="ar">🇸🇦 العربية</option>
+                            <option value="en">🇺🇸 الإنجليزية</option>
+                            <option value="fr">🇫🇷 الفرنسية</option>
+                            <option value="es">🇪🇸 الإسبانية</option>
+                            <option value="de">🇩🇪 الألمانية</option>
+                            <option value="it">🇮🇹 الإيطالية</option>
+                            <option value="pt">🇵🇹 البرتغالية</option>
+                            <option value="ru">🇷🇺 الروسية</option>
+                            <option value="zh">🇨🇳 الصينية</option>
+                            <option value="ja">🇯🇵 اليابانية</option>
+                            <option value="ko">🇰🇷 الكورية</option>
+                            <option value="hi">🇮🇳 الهندية</option>
+                            <option value="tr">🇹🇷 التركية</option>
+                            <option value="nl">🇳🇱 الهولندية</option>
+                            <option value="sv">🇸🇪 السويدية</option>
+                        </select>
+                    </div>
+                    
+                    <button class="swap-button" id="swapLanguages" title="تبديل اللغات">
+                        ⇄
+                    </button>
+                    
+                    <div class="language-dropdown">
+                        <select id="targetLanguage">
+                            <option value="en">🇺🇸 الإنجليزية</option>
+                            <option value="ar">🇸🇦 العربية</option>
+                            <option value="fr">🇫🇷 الفرنسية</option>
+                            <option value="es">🇪🇸 الإسبانية</option>
+                            <option value="de">🇩🇪 الألمانية</option>
+                            <option value="it">🇮🇹 الإيطالية</option>
+                            <option value="pt">🇵🇹 البرتغالية</option>
+                            <option value="ru">🇷🇺 الروسية</option>
+                            <option value="zh">🇨🇳 الصينية</option>
+                            <option value="ja">🇯🇵 اليابانية</option>
+                            <option value="ko">🇰🇷 الكورية</option>
+                            <option value="hi">🇮🇳 الهندية</option>
+                            <option value="tr">🇹🇷 التركية</option>
+                            <option value="nl">🇳🇱 الهولندية</option>
+                            <option value="sv">🇸🇪 السويدية</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="quick-translate">
+                    <span data-ar="ترجمة سريعة:" data-en="Quick:" data-fr="Rapide:">ترجمة سريعة:</span>
+                    <button class="quick-btn" data-from="ar" data-to="en">AR→EN</button>
+                    <button class="quick-btn" data-from="en" data-to="ar">EN→AR</button>
+                    <button class="quick-btn" data-from="ar" data-to="fr">AR→FR</button>
+                    <button class="quick-btn" data-from="fr" data-to="ar">FR→AR</button>
+                </div>
+            </div>
+
+            <div class="translation-panel">
+                <!-- Input Section -->
+                <div class="input-section">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <span>📝</span>
+                            <span data-ar="النص المراد ترجمته" data-en="Text to Translate" data-fr="Texte à traduire">النص المراد ترجمته</span>
+                        </div>
+                        <div class="section-actions">
+                            <div class="action-icon" id="clearInput" title="مسح النص">
+                                🗑️
+                            </div>
+                            <div class="action-icon" id="pasteText" title="لصق النص">
+                                📋
+                            </div>
+                            <div class="action-icon" id="voiceInput" title="إدخال صوتي">
+                                🎤
+                            </div>
+                        </div>
+                    </div>
+                    <textarea 
+                        class="text-input" 
+                        id="inputText" 
+                        placeholder="اكتب أو الصق النص هنا للترجمة..."
+                        data-placeholder-ar="اكتب أو الصق النص هنا للترجمة..."
+                        data-placeholder-en="Type or paste text here to translate..."
+                        data-placeholder-fr="Tapez ou collez le texte ici pour traduire..."
+                        maxlength="5000"></textarea>
+                    <div class="char-counter">
+                        <span id="charCount">0</span>/5000
+                    </div>
+                </div>
+
+                <!-- Output Section -->
+                <div class="output-section">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <span>🌍</span>
+                            <span data-ar="النص المترجم" data-en="Translated Text" data-fr="Texte traduit">النص المترجم</span>
+                        </div>
+                        <div class="section-actions">
+                            <div class="action-icon" id="copyOutput" title="نسخ النص">
+                                📄
+                            </div>
+                            <div class="action-icon" id="shareTranslation" title="مشاركة">
+                                📤
+                            </div>
+                            <div class="action-icon" id="playAudio" title="تشغيل صوتي">
+                                🔊
+                            </div>
+                        </div>
+                    </div>
+                    <div class="
