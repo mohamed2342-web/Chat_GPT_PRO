@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Universe - اتصل بنا</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            --warning-gradient: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+            --contact-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --dark-bg: #0f0f23;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --glow-color: rgba(103, 126, 234, 0.3);
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(103, 126, 234, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(240, 147, 251, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(79, 172, 254, 0.1) 0%, transparent 50%);
+        }
+
+        /* Header */
+        .header {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--text-primary);
+        }
+
+        .language-switcher {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .language-switcher select {
+            background: transparent;
+            color: var(--text-primary);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 40px 0;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            background: var(--contact-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px var(--glow-color); }
+            to { text-shadow: 0 0 30px var(--glow-color); }
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 60px;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 50px;
+            border: 1px solid var(--border-color);
+        }
+
+        .form-header {
+            margin-bottom: 40px;
+        }
+
+        .form-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .form-description {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .required {
+            color: #f5576c;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 18px 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: rgba(103, 126, 234, 0.5);
+            box-shadow: 0 0 20px rgba(103, 126, 234, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .form-group select option {
+            background: var(--dark-bg);
+            color: var(--text-primary);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 20px;
+            background: var(--contact-gradient);
+            border: none;
+            border-radius: 15px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(103, 126, 234, 0.3);
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .submit-btn.loading {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Contact Info */
+        .contact-info {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 50px;
+            border: 1px solid var(--border-color);
+        }
+
+        .info-header {
+            margin-bottom: 40px;
+        }
+
+        .info-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .info-description {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .contact-methods {
+            margin-bottom: 40px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 25px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-3px);
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .contact-details h4 {
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .contact-details p {
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .contact-details a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-details a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Social Media */
+        .social-section {
+            margin-top: 40px;
+        }
+
+        .social-title {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(103, 126, 234, 0.2);
+        }
+
+        .social-link.facebook:hover {
+            background: #1877f2;
+            border-color: #1877f2;
+        }
+
+        .social-link.twitter:hover {
+            background: #1da1f2;
+            border-color: #1da1f2;
+        }
+
+        .social-link.linkedin:hover {
+            background: #0077b5;
+            border-color: #0077b5;
+        }
+
+        .social-link.instagram:hover {
+            background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+            border-color: #bc1888;
+        }
+
+        .social-link.youtube:hover {
+            background: #ff0000;
+            border-color: #ff0000;
+        }
+
+        .social-link.telegram:hover {
+            background: #0088cc;
+            border-color: #0088cc;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 50px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 40px;
+        }
+
+        .faq-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .faq-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+        }
+
+        .faq-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .faq-question {
+            padding: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            color: var(--text-primary);
+        }
+
+        .faq-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-answer {
+            padding: 0 25px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 25px 25px 25px;
+            max-height: 200px;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Support Hours */
+        .support-hours {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 40px;
+        }
+
+        .hours-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .hours-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .hours-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .hours-card {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .hours-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-3px);
+        }
+
+        .hours-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .hours-type {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .hours-time {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .nav-links {
+                gap: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .contact-section {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-form,
+            .contact-info,
+            .faq-section,
+            .support-hours {
+                padding: 30px 20px;
+            }
+
+            .contact-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+
+            .hours-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .faq-answer {
+                max-height: none;
+            }
+
+            .faq-item.active .faq-answer {
+                max-height: none;
+            }
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--success-gradient);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.error {
+            background: var(--secondary-gradient);
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in:nth-child(1) { animation-delay: 0.1s; }
+        .fade-in:nth-child(2) { animation-delay: 0.2s; }
+        .fade-in:nth-child(3) { animation-delay: 0.3s; }
+        .fade-in:nth-child(4) { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="logo">AI Universe</a>
+            <nav class="nav-links">
+                <a href="index.html" data-ar="الرئيسية" data-en="Home" data-fr="Accueil">الرئيسية</a>
+                <a href="chatbot.html" data-ar="المساعد الذكي" data-en="Chatbot" data-fr="Assistant">المساعد الذكي</a>
+                <a href="imagegen.html" data-ar="توليد الصور" data-en="Image Generation" data-fr="Génération d'images">توليد الصور</a>
+                <a href="textgen.html" data-ar="كتابة المحتوى" data-en="Text Generation" data-fr="Génération de texte">كتابة المحتوى</a>
+                <a href="dataanalysis.html" data-ar="تحليل البيانات" data-en="Data Analysis" data-fr="Analyse">تحليل البيانات</a>
+                <a href="translate.html" data-ar="الترجمة" data-en="Translation" data-fr="Traduction">الترجمة</a>
+                <a href="about.html" data-ar="حول الموقع" data-en="About" data-fr="À propos">حول الموقع</a>
+                <a href="#" class="active" data-ar="اتصل بنا" data-en="Contact" data-fr="Contact">اتصل بنا</a>
+            </nav>
+            <div class="language-switcher">
+                <select id="languageSwitcher">
+                    <option value="ar">🇸🇦 العربية</option>
+                    <option value="en">🇺🇸 English</option>
+                    <option value="fr">🇫🇷 Français</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h1 class="hero-title" data-ar="اتصل بنا" data-en="Contact Us" data-fr="Contactez-nous">اتصل بنا</h1>
+            <p class="hero-subtitle" data-ar="نحن هنا لمساعدتك! تواصل معنا بأي وقت وسنكون سعداء بالرد على استفساراتك ومساعدتك في استخدام أدوات الذكاء الاصطناعي" data-en="We're here to help! Contact us anytime and we'll be happy to answer your questions and help you use AI tools" data-fr="Nous sommes là pour vous aider ! Contactez-nous à tout moment et nous serons heureux de répondre à vos questions et de vous aider à utiliser les outils d'IA">نحن هنا لمساعدتك! تواصل معنا بأي وقت وسنكون سعداء بالرد على استفساراتك ومساعدتك في استخدام أدوات الذكاء الاصطناعي</p>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="contact-section">
+            <!-- Contact Form -->
+            <div class="contact-form fade-in">
+                <div class="form-header">
+                    <h2 class="form-title">
+                        <span>📝</span>
+                        <span data-ar="أرسل لنا رسالة" data-en="Send us a message" data-fr="Envoyez-nous un message">أرسل لنا رسالة</span>
+                    </h2>
+                    <p class="form-description" data-ar="املأ النموذج أدناه وسنتواصل معك في أقرب وقت ممكن" data-en="Fill out the form below and we'll get back to you as soon as possible" data-fr="Remplissez le formulaire ci-dessous et nous vous répondrons dès que possible">املأ النموذج أدناه وسنتواصل معك في أقرب وقت ممكن</p>
+                </div>
+
+                <form id="contactForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">
+                                <span data-ar="الاسم الأول" data-en="First Name" data-fr="Prénom">الاسم الأول</span>
+                                <span class="required">*</span>
+                            </label>
+                            <input type="text" id="firstName" name="firstName" required 
+                                   placeholder="أدخل اسمك الأول"
+                                   data-placeholder-ar="أدخل اسمك الأول"
+                                   data-placeholder-en="Enter your first name"
+                                   data-placeholder-fr="Entrez votre prénom">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">
+                                <span data-ar="اسم العائلة" data-en="Last Name" data-fr="Nom de famille">اسم العائلة</span>
+                                <span class="required">*</span>
+                            </label>
+                            <input type="text" id="lastName" name="lastName" required 
+                                   placeholder="أدخل اسم العائلة"
+                                   data-placeholder-ar="أدخل اسم العائلة"
+                                   data-placeholder-en="Enter your last name"
+                                   data-placeholder-fr="Entrez votre nom de famille">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">
+                                <span data-ar="البريد الإلكتروني" data-en="Email Address" data-fr="Adresse e-mail">البريد الإلكتروني</span>
+                                <span class="required">*</span>
+                            </label>
+                            <input type="email" id="email" name="email" required 
+                                   placeholder="example@email.com"
+                                   data-placeholder-ar="example@email.com"
+                                   data-placeholder-en="example@email.com"
+                                   data-placeholder-fr="exemple@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">
+                                <span data-ar="رقم الهاتف" data-en="Phone Number" data-fr="Numéro de téléphone">رقم الهاتف</span>
+                            </label>
+                            <input type="tel" id="phone" name="phone" 
+                                   placeholder="+966 50 123 4567"
+                                   data-placeholder-ar="+966 50 123 4567"
+                                   data-placeholder-en="+1 234 567 8900"
+                                   data-placeholder-fr="+33 1 23 45 67 89">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">
+                            <span data-ar="موضوع الرسالة" data-en="Subject" data-fr="Sujet">موضوع الرسالة</span>
+                            <span class="required">*</span>
+                        </label>
+                        <select id="subject" name="subject" required>
+                            <option value="" data-ar="اختر الموضوع" data-en="Select subject" data-fr="Sélectionner le sujet">اختر الموضوع</option>
+                            <option value="support" data-ar="دعم فني" data-en="Technical support" data-fr="Support technique">دعم فني</option>
+                            <option value="feature" data-ar="طلب ميزة جديدة" data-en="Feature request" data-fr="Demande de fonctionnalité">طلب ميزة جديدة</option>
+                            <option value="bug" data-ar="الإبلاغ عن خطأ" data-en="Report bug" data-fr="Signaler un bug">الإبلاغ عن خطأ</option>
+                            <option value="business" data-ar="استفسار تجاري" data-en="Business inquiry" data-fr="Demande commerciale">استفسار تجاري</option>
+                            <option value="feedback" data-ar="ملاحظات وآراء" data-en="Feedback" data-fr="Commentaires">ملاحظات وآراء</option>
+                            <option value="other" data-ar="أخرى" data-en="Other" data-fr="Autre">أخرى</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">
+                            <span data-ar="رسالتك" data-en="Your Message" data-fr="Votre message">رسالتك</span>
+                            <span class="required">*</span>
+                        </label>
+                        <textarea id="message" name="message" required 
+                                  placeholder="اكتب رسالتك هنا..."
+                                  data-placeholder-ar="اكتب رسالتك هنا..."
+                                  data-placeholder-en="Write your message here..."
+                                  data-placeholder-fr="Écrivez votre message ici..."></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <span data-ar="📤 إرسال الرسالة" data-en="📤 Send Message" data-fr="📤 Envoyer le message">📤 إرسال الرسالة</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="contact-info fade-in">
+                <div class="info-header">
+                    <h2 class="info-title">
+                        <span>📞</span>
+                        <span data-ar="معلومات الاتصال" data-en="Contact Information" data-fr="Informations de contact">معلومات الاتصال</span>
+                    </h2>
+                    <p class="info-description" data-ar="يمكنك التواصل معنا من خلال أي من الطرق التالية، نحن متاحون دائماً لخدمتك" data-en="You can contact us through any of the following methods, we are always available to serve you" data-fr="Vous pouvez nous contacter par l'un des moyens suivants, nous sommes toujours disponibles pour vous servir">يمكنك التواصل معنا من خلال أي من الطرق التالية، نحن متاحون دائماً لخدمتك</p>
+                </div>
+
+                <div class="contact-methods">
+                    <div class="contact-item">
+                        <span class="contact-icon">📧</span>
+                        <div class="contact-details">
+                            <h4 data-ar="البريد الإلكتروني" data-en="Email Address" data-fr="Adresse e-mail">البريد الإلكتروني</h4>
+                            <p><a href="mailto:support@ai-universe.com">support@ai-universe.com</a></p>
+                            <p><a href="mailto:info@ai-universe.com">info@ai-universe.com</a></p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <span class="contact-icon">📱</span>
+                        <div class="contact-details">
+                            <h4 data-ar="الهاتف والواتساب" data-en="Phone & WhatsApp" data-fr="Téléphone et WhatsApp">الهاتف والواتساب</h4>
+                            <p><a href="tel:+966501234567">+966 50 123 4567</a></p>
+                            <p><a href="https://wa.me/966501234567">واتساب: +966 50 123 4567</a></p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <span class="contact-icon">🏢</span>
+                        <div class="contact-details">
+                            <h4 data-ar="عنوان المكتب" data-en="Office Address" data-fr="Adresse du bureau">عنوان المكتب</h4>
+                            <p data-ar="الرياض، المملكة العربية السعودية" data-en="Riyadh, Saudi Arabia" data-fr="Riyad, Arabie Saoudite">الرياض، المملكة العربية السعودية</p>
+                            <p data-ar="حي الملك فهد، طريق الملك عبدالعزيز" data-en="King Fahd District, King Abdulaziz Road" data-fr="District du Roi Fahd, Route du Roi Abdulaziz">حي الملك فهد، طريق الملك عبدالعزيز</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <span class="contact-icon">⏰</span>
+                        <div class="contact-details">
+                            <h4 data-ar="ساعات العمل" data-en="Working Hours" data-fr="Heures de travail">ساعات العمل</h4>
+                            <p data-ar="الأحد - الخميس: 9:00 ص - 6:00 م" data-en="Sunday - Thursday: 9:00 AM - 6:00 PM" data-fr="Dimanche - Jeudi: 9h00 - 18h00">الأحد - الخميس: 9:00 ص - 6:00 م</p>
+                            <p data-ar="الجمعة - السبت: مغلق" data-en="Friday - Saturday: Closed" data-fr="Vendredi - Samedi: Fermé">الجمعة - السبت: مغلق</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="social-section">
+                    <h3 class="social-title" data-ar="تابعنا على وسائل التواصل" data-en="Follow us on social media" data-fr="Suivez-nous sur les réseaux sociaux">تابعنا على وسائل التواصل</h3>
+                    <div class="social-links">
+                        <a href="#" class="social-link facebook" title="Facebook">📘</a>
+                        <a href="#" class="social-link twitter" title="Twitter">🐦</a>
+                        <a href="#" class="social-link linkedin" title="LinkedIn">💼</a>
+                        <a href="#" class="social-link instagram" title="Instagram">📸</a>
+                        <a href="#" class="social-link youtube" title="YouTube">📺</a>
+                        <a href="#" class="social-link telegram" title="Telegram">✈️</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="faq-section fade-in">
+            <div class="faq-header">
+                <h2 class="faq-title" data-ar="الأسئلة الشائعة" data-en="Frequently Asked Questions" data-fr="Questions fréquemment posées">الأسئلة الشائعة</h2>
+                <p class="faq-subtitle" data-ar="إجابات سريعة على أكثر الأسئلة تكراراً" data-en="Quick answers to the most frequently asked questions" data-fr="Réponses rapides aux questions les plus fréquemment posées">إجابات سريعة على أكثر الأسئلة تكراراً</p>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span data-ar="هل استخدام AI Universe مجاني؟" data-en="Is AI Universe free to use?" data-fr="AI Universe est-il gratuit?">هل استخدام AI Universe مجاني؟</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-ar="نعم، نوفر خطة مجانية تتضمن استخدام محدود لجميع الأدوات. كما نوفر خطط مدفوعة بمميزات إضافية واستخدام غير محدود." data-en="Yes, we offer a free plan with limited usage of all tools. We also provide paid plans with additional features and unlimited usage." data-fr="Oui, nous offrons un plan gratuit avec une utilisation limitée de tous les outils. Nous proposons également des plans payants avec des fonctionnalités supplémentaires et une utilisation illimitée.">نعم، نوفر خطة مجانية تتضمن استخدام محدود لجميع الأدوات. كما نوفر خطط مدفوعة بمميزات إضافية واستخدام غير محدود.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span data-ar="كم عدد اللغات المدعومة في المنصة؟" data-en="How many languages are supported on the platform?" data-fr="Combien de langues sont prises en charge sur la plateforme?">كم عدد اللغات المدعومة في المنصة؟</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-ar="تدعم منصة AI Universe أكثر من 100 لغة مختلفة، بما في ذلك العربية والإنجليزية والفرنسية والإسبانية وغيرها الكثير." data-en="AI Universe platform supports over 100 different languages, including Arabic, English, French, Spanish, and many more." data-fr="La plateforme AI Universe prend en charge plus de 100 langues différentes, notamment l'arabe, l'anglais, le français, l'espagnol et bien d'autres.">تدعم منصة AI Universe أكثر من 100 لغة مختلفة، بما في ذلك العربية والإنجليزية والفرنسية والإسبانية وغيرها الكثير.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span data-ar="هل بياناتي آمنة على المنصة؟" data-en="Is my data safe on the platform?" data-fr="Mes données sont-elles sécurisées sur la plateforme?">هل بياناتي آمنة على المنصة؟</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-ar="نعم، نحن نأخذ أمان البيانات على محمل الجد. جميع البيانات مشفرة ونحن لا نحتفظ بأي محتوى شخصي بعد انتهاء الجلسة." data-en="Yes, we take data security very seriously. All data is encrypted and we do not retain any personal content after the session ends." data-fr="Oui, nous prenons la sécurité des données très au sérieux. Toutes les données sont cryptées et nous ne conservons aucun contenu personnel après la fin de la session.">نعم، نحن نأخذ أمان البيانات على محمل الجد. جميع البيانات مشفرة ونحن لا نحتفظ بأي محتوى شخصي بعد انتهاء الجلسة.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span data-ar="كيف يمكنني الحصول على الدعم الفني؟" data-en="How can I get technical support?" data-fr="Comment puis-je obtenir un support technique?">كيف يمكنني الحصول على الدعم الفني؟</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-ar="يمكنك الحصول على الدعم الفني من خلال النموذج أعلاه، أو مراسلتنا على البريد الإلكتروني، أو التواصل معنا عبر الواتساب. فريقنا متاح للمساعدة." data-en="You can get technical support through the form above, email us, or contact us via WhatsApp. Our team is available to help." data-fr="Vous pouvez obtenir un support technique via le formulaire ci-dessus, nous envoyer un e-mail ou nous contacter via WhatsApp. Notre équipe est disponible pour vous aider.">يمكنك الحصول على الدعم الفني من خلال النموذج أعلاه، أو مراسلتنا على البريد الإلكتروني، أو التواصل معنا عبر الواتساب. فريقنا متاح للمساعدة.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span data-ar="هل تخططون لإضافة أدوات جديدة؟" data-en="Are you planning to add new tools?" data-fr="Prévoyez-vous d'ajouter de nouveaux outils?">هل تخططون لإضافة أدوات جديدة؟</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-ar="نعم، نعمل باستمرار على تطوير وإضافة أدوات جديدة. نستمع لاقتراحات المستخدمين ونسعى لتوفير أحدث تقنيات الذكاء الاصطناعي." data-en="Yes, we are constantly working on developing and adding new tools. We listen to user suggestions and strive to provide the latest AI technologies." data-fr="Oui, nous travaillons constamment au développement et à l'ajout de nouveaux outils. Nous écoutons les suggestions des utilisateurs et nous nous efforçons de fournir les dernières technologies d'IA.">نعم، نعمل باستمرار على تطوير وإضافة أدوات جديدة. نستمع لاقتراحات المستخدمين ونسعى لتوفير أحدث تقنيات الذكاء الاصطناعي.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Support Hours -->
+        <div class="support-hours fade-in">
+            <div class="hours-header">
+                <h2 class="hours-title" data-ar="أوقات الدعم والاستجابة" data-en="Support Hours & Response Times" data-fr="Heures de support et temps de réponse">أوقات الدعم والاستجابة</h2>
+            </div>
+
+            <div class="hours-grid">
+                <div class="hours-card">
+                    <span class="hours-icon">💬</span>
+                    <h3 class="hours-type" data-ar="الدردشة المباشرة" data-en="Live Chat" data-fr="Chat en direct">الدردشة المباشرة</h3>
+                    <p class="hours-time" data-ar="متاح 24/7<br>استجابة فورية" data-en="Available 24/7<br>Instant response" data-fr="Disponible 24h/7<br>Réponse instantanée">متاح 24/7<br>استجابة فورية</p>
+                </div>
+
+                <div class="hours-card">
+                    <span class="hours-icon">📧</span>
+                    <h3 class="hours-type" data-ar="البريد الإلكتروني" data-en="Email Support" data-fr="Support par e-mail">البريد الإلكتروني</h3>
+                    <p class="hours-time" data-ar="استجابة خلال 2-4 ساعات<br>في أوقات العمل" data-en="Response within 2-4 hours<br>During business hours" data-fr="Réponse dans les 2-4 heures<br>Pendant les heures de bureau">استجابة خلال 2-4 ساعات<br>في أوقات العمل</p>
+                </div>
+
+                <div class="hours-card">
+                    <span class="hours-icon">📱</span>
+                    <h3 class="hours-type" data-ar="الواتساب" data-en="WhatsApp" data-fr="WhatsApp">الواتساب</h3>
+                    <p class="hours-time" data-ar="9:00 ص - 6:00 م<br>الأحد إلى الخميس" data-en="9:00 AM - 6:00 PM<br>Sunday to Thursday" data-fr="9h00 - 18h00<br>Dimanche au jeudi">9:00 ص - 6:00 م<br>الأحد إلى الخميس</p>
+                </div>
+
+                <div class="hours-card">
+                    <span class="hours-icon">🚨</span>
+                    <h3 class="hours-type" data-ar="الطوارئ" data-en="Emergency" data-fr="Urgence">الطوارئ</h3>
+                    <p class="hours-time" data-ar="للحالات العاجلة<br>متاح 24/7" data-en="For urgent cases<br>Available 24/7" data-fr="Pour les cas urgents<br>Disponible 24h/7">للحالات العاجلة<br>متاح 24/7</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <span id="toastMessage"></span>
+    </div>
+
+    <script>
+        // Language System
+        const translations = {
+            ar: { direction: 'rtl', lang: 'ar' },
+            en: { direction: 'ltr', lang: 'en' },
+            fr: { direction: 'ltr', lang: 'fr' }
+        };
+
+        let currentLanguage = 'ar';
+
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            const elements = document.querySelectorAll('[data-ar]');
+            
+            elements.forEach(element => {
+                const translation = element.getAttribute(`data-${lang}`);
+                if (translation) {
+                    if (element.innerHTML.includes('<br>')) {
+                        element.innerHTML = translation;
+                    } else {
+                        element.textContent = translation;
+                    }
+                }
+            });
+
+            // Update placeholders
+            const placeholderElements = document.querySelectorAll('[data-placeholder-ar]');
+            placeholderElements.forEach(element => {
+                const translation = element.getAttribute(`data-placeholder-${lang}`);
+                if (translation) {
+                    element.placeholder = translation;
+                }
+            });
+
+            // Update document properties
+            document.documentElement.lang = translations[lang].lang;
+            document.documentElement.dir = translations[lang].direction;
+            document.body.className = translations[lang].direction;
+            
+            localStorage.setItem('preferred-language', lang);
+        }
+
+        // Language switcher event
+        document.getElementById('languageSwitcher').addEventListener('change', function() {
+            switchLanguage(this.value);
+        });
+
+        // Load saved language preference
+        const savedLanguage = localStorage.getItem('preferred-language') || 'ar';
+        document.getElementById('languageSwitcher').value = savedLanguage;
+        switchLanguage(savedLanguage);
+
+        // Contact Form Submission
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            await submitForm();
+        });
+
+        async function submitForm() {
+            const submitBtn = document.getElementById('submitBtn');
+            const formData = new FormData(document.getElementById('contactForm'));
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.classList.add('loading');
+            
+            const originalText = submitBtn.querySelector('span').textContent;
+            const loadingTexts = {
+                ar: '📤 جاري الإرسال...',
+                en: '📤 Sending...',
+                fr: '📤 Envoi en cours...'
+            };
+            submitBtn.querySelector('span').textContent = loadingTexts[currentLanguage];
+
+            try {
+                // Simulate form submission (replace with actual API call)
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Show success message
+                const successMessages = {
+                    ar: 'تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.',
+                    en: 'Your message has been sent successfully! We will contact you soon.',
+                    fr: 'Votre message a été envoyé avec succès! Nous vous contacterons bientôt.'
+                };
+                showToast(successMessages[currentLanguage], 'success');
+                
+                // Reset form
+                document.getElementById('contactForm').reset();
+                
+            } catch (error) {
+                const errorMessages = {
+                    ar: 'حدث خطأ أثناء إرسال الرسالة. يرجى المحاولة مرة أخرى.',
+                    en: 'An error occurred while sending the message. Please try again.',
+                    fr: 'Une erreur s\'est produite lors de l\'envoi du message. Veuillez réessayer.'
+                };
+                showToast(errorMessages[currentLanguage], 'error');
+            } finally {
+                // Hide loading state
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('loading');
+                submitBtn.querySelector('span').textContent = originalText;
+            }
+        }
+
+        // FAQ Toggle
+        function toggleFAQ(element) {
+            const faqItem = element.parentElement;
+            const isActive = faqItem.classList.contains('active');
+            
+            // Close all FAQ items
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Open clicked item if it wasn't active
+            if (!isActive) {
+                faqItem.classList.add('active');
+            }
+        }
+
+        // Toast Notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toastMessage.textContent = message;
+            toast.className = `toast ${type}`;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        // Form Validation
+        function validateForm() {
+            const requiredFields = document.querySelectorAll('input[required], select[required], textarea[required]');
+            let isValid = true;
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.style.borderColor = '#f5576c';
+                    isValid = false;
+                } else {
+                    field.style.borderColor = '';
+                }
+            });
+            
+            // Email validation
+            const emailField = document.getElementById('email');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (emailField.value && !emailRegex.test(emailField.value)) {
+                emailField.style.borderColor = '#f5576c';
+                isValid = false;
+            }
+            
+            return isValid;
+        }
+
+        // Add validation on form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            if (!validateForm()) {
+                e.preventDefault();
+                const errorMessages = {
+                    ar: 'يرجى ملء جميع الحقول المطلوبة بشكل صحيح',
+                    en: 'Please fill in all required fields correctly',
+                    fr: 'Veuillez remplir tous les champs obligatoires correctement'
+                };
+                showToast(errorMessages[currentLanguage], 'error');
+            }
+        });
+
+        // Add real-time validation
+        document.querySelectorAll('input, select, textarea').forEach(field => {
+            field.addEventListener('blur', function() {
+                if (this.hasAttribute('required') && !this.value.trim()) {
+                    this.style.borderColor = '#f5576c';
+                } else {
+                    this.style.borderColor = '';
+                }
+            });
+            
+            field.addEventListener('input', function() {
+                if (this.style.borderColor === 'rgb(245, 87, 108)') {
+                    this.style.borderColor = '';
+                }
+            });
+        });
+
+        // Initialize animations
+        window.addEventListener('load', function() {
+            document.body.classList.add('loaded');
+        });
+    </script>
+</body>
+</html>
