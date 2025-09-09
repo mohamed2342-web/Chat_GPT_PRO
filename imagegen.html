@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Universe - توليد الصور</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            --dark-bg: #0f0f23;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --glow-color: rgba(103, 126, 234, 0.3);
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(103, 126, 234, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(240, 147, 251, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(79, 172, 254, 0.1) 0%, transparent 50%);
+        }
+
+        /* Header */
+        .header {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .language-switcher {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .language-switcher select {
+            background: transparent;
+            color: var(--text-primary);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .language-switcher select option {
+            background: var(--dark-bg);
+            color: var(--text-primary);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .page-title h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: var(--secondary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px var(--glow-color); }
+            to { text-shadow: 0 0 30px var(--glow-color); }
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Generator Section */
+        .generator-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .input-panel {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            border: 1px solid var(--border-color);
+        }
+
+        .input-panel h2 {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            font-size: 16px;
+            transition: all 0.3s ease;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: rgba(103, 126, 234, 0.5);
+            box-shadow: 0 0 20px rgba(103, 126, 234, 0.2);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            font-family: inherit;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .generate-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--secondary-gradient);
+            border: none;
+            border-radius: 15px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(240, 147, 251, 0.3);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .generate-btn.loading {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Result Panel */
+        .result-panel {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+        }
+
+        .placeholder {
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .placeholder-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .generated-image {
+            max-width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .image-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            padding: 12px 24px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Gallery Section */
+        .gallery-section {
+            margin-top: 60px;
+        }
+
+        .gallery-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: var(--text-primary);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .gallery-item {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .gallery-item-info {
+            padding: 20px;
+        }
+
+        .gallery-item-prompt {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        /* Loading Animation */
+        .loading-animation {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loading-animation.show {
+            display: block;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid var(--text-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .nav-links {
+                gap: 20px;
+            }
+
+            .generator-section {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title h1 {
+                font-size: 2.2rem;
+            }
+
+            .input-panel,
+            .result-panel {
+                padding: 30px 20px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 20px;
+            }
+
+            .image-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .action-btn {
+                justify-content: center;
+            }
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--success-gradient);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .prompt-suggestions {
+            margin-top: 15px;
+        }
+
+        .suggestions-title {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .suggestion-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .suggestion-tag {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .suggestion-tag:hover {
+            background: var(--accent-gradient);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="logo">AI Universe</a>
+            <nav class="nav-links">
+                <a href="index.html" data-ar="الرئيسية" data-en="Home" data-fr="Accueil">الرئيسية</a>
+                <a href="chatbot.html" data-ar="المساعد الذكي" data-en="Chatbot" data-fr="Assistant">المساعد الذكي</a>
+                <a href="textgen.html" data-ar="كتابة المحتوى" data-en="Text Generation" data-fr="Génération de texte">كتابة المحتوى</a>
+                <a href="dataanalysis.html" data-ar="تحليل البيانات" data-en="Data Analysis" data-fr="Analyse">تحليل البيانات</a>
+                <a href="translate.html" data-ar="الترجمة" data-en="Translation" data-fr="Traduction">الترجمة</a>
+            </nav>
+            <div class="language-switcher">
+                <select id="languageSwitcher">
+                    <option value="ar">🇸🇦 العربية</option>
+                    <option value="en">🇺🇸 English</option>
+                    <option value="fr">🇫🇷 Français</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Page Title -->
+        <div class="page-title">
+            <h1 data-ar="توليد الصور بالذكاء الاصطناعي" data-en="AI Image Generation" data-fr="Génération d'images IA">توليد الصور بالذكاء الاصطناعي</h1>
+            <p class="page-subtitle" data-ar="اكتب وصفًا وشاهد كيف يحول الذكاء الاصطناعي كلماتك إلى صورة فنية مذهلة" data-en="Write a description and watch AI transform your words into stunning artwork" data-fr="Écrivez une description et regardez l'IA transformer vos mots en œuvre d'art époustouflante">اكتب وصفًا وشاهد كيف يحول الذكاء الاصطناعي كلماتك إلى صورة فنية مذهلة</p>
+        </div>
+
+        <!-- Generator Section -->
+        <div class="generator-section">
+            <!-- Input Panel -->
+            <div class="input-panel">
+                <h2>
+                    <span>🎨</span>
+                    <span data-ar="إعدادات التوليد" data-en="Generation Settings" data-fr="Paramètres de génération">إعدادات التوليد</span>
+                </h2>
+                
+                <form id="imageGeneratorForm">
+                    <div class="form-group">
+                        <label for="prompt" data-ar="وصف الصورة" data-en="Image Description" data-fr="Description de l'image">وصف الصورة</label>
+                        <textarea 
+                            id="prompt" 
+                            placeholder="مثال: رجل فضائي يقف على سطح القمر مع خلفية النجوم والكواكب" 
+                            data-placeholder-ar="مثال: رجل فضائي يقف على سطح القمر مع خلفية النجوم والكواكب"
+                            data-placeholder-en="Example: An astronaut standing on the moon's surface with stars and planets in the background"
+                            data-placeholder-fr="Exemple: Un astronaute debout sur la surface de la lune avec des étoiles et des planètes en arrière-plan"
+                            required></textarea>
+                    </div>
+
+                    <div class="prompt-suggestions">
+                        <p class="suggestions-title" data-ar="اقتراحات سريعة:" data-en="Quick suggestions:" data-fr="Suggestions rapides:">اقتراحات سريعة:</p>
+                        <div class="suggestion-tags">
+                            <span class="suggestion-tag" data-ar="طائر ملون يطير في الغروب" data-en="colorful bird flying at sunset" data-fr="oiseau coloré volant au coucher du soleil">طائر ملون يطير في الغروب</span>
+                            <span class="suggestion-tag" data-ar="مدينة مستقبلية بأضواء نيون" data-en="futuristic city with neon lights" data-fr="ville futuriste avec des lumières néon">مدينة مستقبلية بأضواء نيون</span>
+                            <span class="suggestion-tag" data-ar="قطة تشرب القهوة" data-en="cat drinking coffee" data-fr="chat buvant du café">قطة تشرب القهوة</span>
+                            <span class="suggestion-tag" data-ar="جبال ثلجية مع بحيرة" data-en="snowy mountains with lake" data-fr="montagnes enneigées avec lac">جبال ثلجية مع بحيرة</span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="style" data-ar="نمط الصورة" data-en="Art Style" data-fr="Style artistique">نمط الصورة</label>
+                            <select id="style">
+                                <option value="realistic" data-ar="واقعي" data-en="Realistic" data-fr="Réaliste">واقعي</option>
+                                <option value="artistic" data-ar="فني" data-en="Artistic" data-fr="Artistique">فني</option>
+                                <option value="cartoon" data-ar="كرتوني" data-en="Cartoon" data-fr="Dessin animé">كرتوني</option>
+                                <option value="abstract" data-ar="تجريدي" data-en="Abstract" data-fr="Abstrait">تجريدي</option>
+                                <option value="vintage" data-ar="كلاسيكي" data-en="Vintage" data-fr="Vintage">كلاسيكي</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="size" data-ar="حجم الصورة" data-en="Image Size" data-fr="Taille de l'image">حجم الصورة</label>
+                            <select id="size">
+                                <option value="512x512">512x512</option>
+                                <option value="768x768">768x768</option>
+                                <option value="1024x1024">1024x1024</option>
+                                <option value="1024x768">1024x768 (أفقي)</option>
+                                <option value="768x1024">768x1024 (عمودي)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="quality" data-ar="جودة الصورة" data-en="Quality" data-fr="Qualité">جودة الصورة</label>
+                            <select id="quality">
+                                <option value="standard" data-ar="عادية" data-en="Standard" data-fr="Standard">عادية</option>
+                                <option value="high" data-ar="عالية" data-en="High" data-fr="Haute">عالية</option>
+                                <option value="ultra" data-ar="فائقة" data-en="Ultra" data-fr="Ultra">فائقة</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="creativity" data-ar="مستوى الإبداع" data-en="Creativity Level" data-fr="Niveau de créativité">مستوى الإبداع</label>
+                            <select id="creativity">
+                                <option value="low" data-ar="منخفض" data-en="Low" data-fr="Faible">منخفض</option>
+                                <option value="medium" data-ar="متوسط" data-en="Medium" data-fr="Moyen">متوسط</option>
+                                <option value="high" data-ar="عالي" data-en="High" data-fr="Élevé">عالي</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="generate-btn" id="generateBtn">
+                        <span id="btnText" data-ar="🎨 توليد الصورة" data-en="🎨 Generate Image" data-fr="🎨 Générer l'image">🎨 توليد الصورة</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Result Panel -->
+            <div class="result-panel" id="resultPanel">
+                <div class="placeholder" id="placeholder">
+                    <div class="placeholder-icon">🖼️</div>
+                    <h3 data-ar="صورتك ستظهر هنا" data-en="Your image will appear here" data-fr="Votre image apparaîtra ici">صورتك ستظهر هنا</h3>
+                    <p data-ar="اكتب وصفًا للصورة التي تريدها واضغط على توليد" data-en="Write a description of the image you want and click generate" data-fr="Écrivez une description de l'image que vous voulez et cliquez sur générer">اكتب وصفًا للصورة التي تريدها واضغط على توليد</p>
+                </div>
+                
+                <div class="loading-animation" id="loadingAnimation">
+                    <div class="spinner"></div>
+                    <h3 data-ar="جاري إنشاء صورتك..." data-en="Creating your image..." data-fr="Création de votre image...">جاري إنشاء صورتك...</h3>
+                    <p data-ar="هذا قد يستغرق بضع ثوانٍ" data-en="This may take a few seconds" data-fr="Cela peut prendre quelques secondes">هذا قد يستغرق بضع ثوانٍ</p>
+                </div>
+
+                <div id="generatedImageContainer" style="display: none;">
+                    <img id="generatedImage" class="generated-image" alt="Generated Image">
+                    <div class="image-actions">
+                        <button class="action-btn" onclick="downloadImage()">
+                            <span>📥</span>
+                            <span data-ar="تحميل" data-en="Download" data-fr="Télécharger">تحميل</span>
+                        </button>
+                        <button class="action-btn" onclick="regenerateImage()">
+                            <span>🔄</span>
+                            <span data-ar="إعادة توليد" data-en="Regenerate" data-fr="Régénérer">إعادة توليد</span>
+                        </button>
+                        <button class="action-btn" onclick="shareImage()">
+                            <span>📤</span>
+                            <span data-ar="مشاركة" data-en="Share" data-fr="Partager">مشاركة</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gallery Section -->
+        <div class="gallery-section">
+            <h2 data-ar="معرض الصور المولدة" data-en="Generated Images Gallery" data-fr="Galerie d'images générées">معرض الصور المولدة</h2>
+            <div class="gallery-grid" id="galleryGrid">
+                <!-- Gallery items will be added dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <span id="toastMessage"></span>
+    </div>
+
+    <script>
+        // Language System
+        const translations = {
+            ar: { direction: 'rtl', lang: 'ar' },
+            en: { direction: 'ltr', lang: 'en' },
+            fr: { direction: 'ltr', lang: 'fr' }
+        };
+
+        let currentLanguage = 'ar';
+        let generatedImages = [];
+
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            const elements = document.querySelectorAll('[data-ar]');
+            
+            elements.forEach(element => {
+                const translation = element.getAttribute(`data-${lang}`);
+                if (translation) {
+                    element.textContent = translation;
+                }
+            });
+
+            // Update placeholders
+            const placeholderElements = document.querySelectorAll('[data-placeholder-ar]');
+            placeholderElements.forEach(element => {
+                const translation = element.getAttribute(`data-placeholder-${lang}`);
+                if (translation) {
+                    element.placeholder = translation;
+                }
+            });
+
+            // Update document properties
+            document.documentElement.lang = translations[lang].lang;
+            document.documentElement.dir = translations[lang].direction;
+            document.body.className = translations[lang].direction;
+            
+            localStorage.setItem('preferred-language', lang);
+        }
+
+        // Language switcher event
+        document.getElementById('languageSwitcher').addEventListener('change', function() {
+            switchLanguage(this.value);
+        });
+
+        // Load saved language preference
+        const savedLanguage = localStorage.getItem('preferred-language') || 'ar';
+        document.getElementById('languageSwitcher').value = savedLanguage;
+        switchLanguage(savedLanguage);
+
+        // Suggestion tags functionality
+        document.querySelectorAll('.suggestion-tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                const prompt = this.getAttribute(`data-${currentLanguage}`) || this.textContent;
+                document.getElementById('prompt').value = prompt;
+            });
+        });
+
+        // Image generation form
+        document.getElementById('imageGeneratorForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            await generateImage();
+        });
+
+        async function generateImage() {
+            const prompt = document.getElementById('prompt').value;
+            const style = document.getElementById('style').value;
+            const size = document.getElementById('size').value;
+            const quality = document.getElementById('quality').value;
+            const creativity = document.getElementById('creativity').value;
+
+            if (!prompt.trim()) {
+                showToast('يرجى إدخال وصف للصورة', 'error');
+                return;
+            }
+
+            // Show loading state
+            document.getElementById('placeholder').style.display = 'none';
+            document.getElementById('loadingAnimation').classList.add('show');
+            document.getElementById('generatedImageContainer').style.display = 'none';
+            
+            const generateBtn = document.getElementById('generateBtn');
+            generateBtn.disabled = true;
+            generateBtn.classList.add('loading');
+
+            try {
+                // Simulate AI image generation (replace with actual API call)
+                await simulateImageGeneration(prompt, style, size, quality, creativity);
+                
+            } catch (error) {
+                console.error('Error generating image:', error);
+                showToast('حدث خطأ أثناء توليد الصورة', 'error');
+            } finally {
+                // Hide loading state
+                document.getElementById('loadingAnimation').classList.remove('show');
+                generateBtn.disabled = false;
+                generateBtn.classList.remove('loading');
+            }
+        }
+
+        async function simulateImageGeneration(prompt, style, size, quality, creativity) {
+            // Simulate API delay
+            await new Promise(resolve => setTimeout(resolve, 3000));
+
+            // Create a placeholder image (in real implementation, this would be the API response)
+            const canvas = document.createElement('canvas');
+            const [width, height] = size.split('x').map(Number);
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+
+            // Background
+            ctx.fillStyle = '#22223b';
+            ctx.fillRect(0, 0, width, height);
+
+            // Decorative gradient
+            const grad = ctx.createLinearGradient(0, 0, width, height);
+            grad.addColorStop(0, '#667eea');
+            grad.addColorStop(1, '#f093fb');
+            ctx.globalAlpha = 0.3;
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, width, height);
+            ctx.globalAlpha = 1;
+
+            // Draw prompt text
+            ctx.font = `${Math.max(20, width / 22)}px 'Segoe UI', Arial, sans-serif`;
+            ctx.fillStyle = '#fff';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.shadowColor = '#764ba2';
+            ctx.shadowBlur = 8;
+            ctx.fillText(prompt.slice(0, 80) + (prompt.length > 80 ? '...' : ''), width / 2, height / 2);
+
+            // Draw style/quality/creativity as a badge
+            ctx.shadowBlur = 0;
+            ctx.font = `${Math.max(14, width / 32)}px Arial`;
+            ctx.fillStyle = '#f5576c';
+            ctx.textAlign = 'left';
+            ctx.fillText(`${style} | ${quality} | ${creativity}`, 20, height - 30);
+
+            // Convert to data URL
+            const imageUrl = canvas.toDataURL('image/png');
+
+            // Show generated image
+            showGeneratedImage(imageUrl, prompt, style, size, quality, creativity);
+        }
+
+        function showGeneratedImage(imageUrl, prompt, style, size, quality, creativity) {
+            const img = document.getElementById('generatedImage');
+            img.src = imageUrl;
+            img.alt = prompt;
+
+            document.getElementById('generatedImageContainer').style.display = 'block';
+            document.getElementById('placeholder').style.display = 'none';
+
+            // Save to gallery
+            const imageObj = { imageUrl, prompt, style, size, quality, creativity, timestamp: Date.now() };
+            generatedImages.unshift(imageObj);
+            if (generatedImages.length > 12) generatedImages.length = 12;
+            updateGallery();
+
+            showToast('تم توليد الصورة بنجاح!', 'success');
+        }
+
+        function updateGallery() {
+            const grid = document.getElementById('galleryGrid');
+            grid.innerHTML = '';
+            generatedImages.forEach(imgObj => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.innerHTML = `
+                    <img src="${imgObj.imageUrl}" alt="${imgObj.prompt}">
+                    <div class="gallery-item-info">
+                        <div class="gallery-item-prompt">${imgObj.prompt}</div>
+                    </div>
+                `;
+                grid.appendChild(item);
+            });
+        }
+
+        // Download image
+        function downloadImage() {
+            const img = document.getElementById('generatedImage');
+            const link = document.createElement('a');
+            link.href = img.src;
+            link.download = 'ai-image.png';
+            link.click();
+            showToast('تم تحميل الصورة!', 'success');
+        }
+
+        // Regenerate image
+        function regenerateImage() {
+            generateImage();
+        }
+
+        // Share image (Web Share API or fallback)
+        function shareImage() {
+            const img = document.getElementById('generatedImage');
+            if (navigator.share) {
+                fetch(img.src)
+                    .then(res => res.blob())
+                    .then(blob => {
+                        const file = new File([blob], 'ai-image.png', { type: 'image/png' });
+                        navigator.share({
+                            files: [file],
+                            title: 'AI Image',
+                            text: 'Check out this AI generated image!'
+                        });
+                    })
+                    .catch(() => showToast('حدث خطأ أثناء المشاركة', 'error'));
+            } else {
+                // Fallback: copy image URL
+                navigator.clipboard.writeText(img.src);
+                showToast('تم نسخ رابط الصورة!', 'success');
+            }
+        }
+
+        // Toast notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMessage');
+            toastMsg.textContent = message;
+            toast.style.background = type === 'success'
+                ? 'var(--success-gradient)'
+                : 'linear-gradient(135deg, #f5576c 0%, #f093fb 100%)';
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // Restore gallery from localStorage (optional)
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('ai-image-gallery');
+            if (saved) {
+                generatedImages = JSON.parse(saved);
+                updateGallery();
+            }
+        });
+
+        // Save gallery to localStorage on update
+        function updateGallery() {
+            const grid = document.getElementById('galleryGrid');
+            grid.innerHTML = '';
+            generatedImages.forEach(imgObj => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.innerHTML = `
+                    <img src="${imgObj.imageUrl}" alt="${imgObj.prompt}">
+                    <div class="gallery-item-info">
+                        <div class="gallery-item-prompt">${imgObj.prompt}</div>
+                    </div>
+                `;
+                grid.appendChild(item);
+            });
+            localStorage.setItem('ai-image-gallery', JSON.stringify(generatedImages));
+        }
+
+        // إضافة وظيفة التوليد
+        async function generateAIImage() {
+            const prompt = document.getElementById('prompt').value;
+            const result = await window.AIUniverse.generateImage(prompt);
+            displayImage(result);
+        }
+    </script>
+</body>
+</html>
